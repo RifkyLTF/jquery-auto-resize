@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>jQuery Auto Resize</title>
+	<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Simple jQuery plugin to automically resize your <textarea>">
+	<meta name="keywords" content="jquery,jQuery,plugin,jquery plugin,textarea,jquery auto resize,auto resize,auto resize plugin,auto resize textarea">
+	<meta name="author" content="RifkyLTF">
+
+	<link rel="stylesheet" type="text/css" href="demo/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="demo/css/vs.css">
+
+	<style>
+		.demo-title {
+			font-size: 3.5rem;
+			font-weight: 300;
+			margin-bottom: 1.5rem;
+		}
+
+		.svg {
+			width: 1rem;
+			height: auto
+		}
+
+		@media (max-width: 767.98px) {
+			.demo-title {
+				font-size: 2.5rem
+			}
+		}
+
+		@media (max-width: 424.98px) {
+			.demo-title {
+				font-size: 2rem
+			}
+		}
+
+		@media (min-width: 768px) {
+			.btn-download {
+				padding: 0.5rem 1rem;
+				font-size: 1.25rem;
+				line-height: 1.5;
+				border-radius: 0.3rem;
+			}
+		}
+	</style>
+
+</head>
+<body>
+	<div class="jumbotron jumbotron-fluid text-center mb-0 pb-3">
+	  <div class="container">
+	    <h1 class="demo-title">Simple jQuery Plugin to Auto Resize Your <code>&lt;textarea&gt;</code></h1>
+	    <hr class="my-3">
+	    <a href="dist/jquery-auto-resize.js" class="btn btn-primary btn-download px-5" download>Download</a>
+	    <br>
+	    <label><a href="dist/jquery-auto-resize.min.js" class="text-primary" download>Minified version</a></label>
+    	<hr class="my-3">
+    	<section class="text-left text-dark">
+    		<h3 class="text-center">Usage</h3>
+
+    		<h5>Basic Usage</h5>
+    		<pre><code class="javascript">$(document).ready(function() {
+  $("textarea").autoresize()
+})</code></pre>
+
+			<h5>Adding Value</h5>
+			<pre><code class="javascript">// format
+$("textarea").autoresize(minRow, maxRows)
+// default value for minRow is 2 and maxRows is false
+// you can empty the maxRows value to make your textarea have an infinity rows
+
+// Example
+$(document).ready(function() {
+  $("textarea").autoresize(2, 5)
+})
+
+// Example with infinity rows
+$(document).ready(function() {
+  $("textarea").autoresize(2)
+})</code></pre>
+    	</section>
+	    <hr class="my-3">
+	    <h3 class="text-dark mb-3">Playground</h3>
+		<div class="row">
+    		<div class="col-md-6">
+    			<div class="form-row">
+		    		<div class="form-group col-sm-6">
+		    			<input type="text" id="minRows" class="form-control" placeholder="Min. row(s)">
+		    		</div>
+		    		<div class="form-group col-sm-6">
+		    			<input type="text" id="maxRows" class="form-control" placeholder="Max. rows">
+		    		</div>
+		    	</div>
+				<div class="form-group">
+					<button class="btn btn-primary btn-block">Set</button>
+				</div>
+    		</div>
+    		<div class="col-md-6">
+    			<textarea class="form-control" placeholder="You can test this one"></textarea>
+    		</div>
+    	</div>
+	    <hr class="my-3">
+	    <img src="demo/svg/github.svg" class="svg mr-1"><a href="https://github.com/RifkyLTF/jquery-auto-resize.github.io" target="_blank">Contribute</a> ||
+	    Made with <img src="demo/svg/love.svg" class="svg"> by <a href="http://rifkyltf.github.io" target="_blank">RifkyLTF</a>
+	  </div>
+	</div>
+
+	<script src="demo/js/jquery-3.4.1.min.js"></script>
+	<script src="demo/js/bootstrap.bundle.min.js"></script>
+	<script src="demo/js/highlight.pack.js"></script>
+	<script>hljs.initHighlightingOnLoad();</script>
+	<script src="dist/jquery-auto-resize.min.js"></script>
+	<script>
+		(function($) {
+		  $.fn.inputFilter = function(inputFilter) {return this.on("input keydown keyup mousedown mouseup select contextmenu drop", function() { if (inputFilter(this.value)) {this.oldValue = this.value;this.oldSelectionStart = this.selectionStart;this.oldSelectionEnd = this.selectionEnd} else if (this.hasOwnProperty("oldValue")) {this.value = this.oldValue; this.setSelectionRange(this.oldSelectionStart, this.oldSelectionEnd)}})}
+		}(jQuery))
+
+		$(document).ready(function(){
+			$("input").inputFilter(function(value) { return /^\d*$/.test(value) })
+
+			$('textarea').autoresize()
+
+			$('button').click(function(){
+				let min = +$('#minRows').val()
+				let max = +$('#maxRows').val()
+				if (validate(min, max)) { $('textarea').val('').autoresize(min, max) }
+			})
+		})
+
+		function validate(min, max) {
+			if (min > max) {
+				alert('Max rows should not be less than min row(s)')
+				return false
+			} else {
+				return true
+			}
+		}
+	</script>
+</body>
+</html>
